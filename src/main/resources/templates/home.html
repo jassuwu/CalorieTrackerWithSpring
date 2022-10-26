@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="default">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home </title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" th:href="@{/css/theme.css}">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/home}">Food Tracker</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a th:href="@{/home}">Home</a></li>
+                    <li><a th:href="@{/food}">Add Food Item</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container theme-showcase col-sm-6 col-sm-offset-3" role="main">
+
+        <div class="row">
+            <div>
+                <form method="POST" th:action="@{/home}">
+                    <div class="form-group">
+                        <label for="new-day">New Day</label>
+                        <input type="date" name="entryDate" id="todatetime" class="form-control"
+                            placeholder="today for e.g." required="" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+
+                <div class="page-header"></div>
+
+                <div th:each="day: ${days}">
+                    <a class="text-white" th:href="@{/days/(${day.entryDate}}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title" th:text="${day.entryDate}"></h3>
+                            </div>
+                            <!-- <div class="panel-body">
+                                <ul class="nav nav-pills" role="tablist">
+                                    <li><a>Calories: <span class="badge">{{ day.total_calories }}</span></a></li>
+                                    <li><a th:href="@{/days/${day.entryDate}}" type="button" class="btn btn-link">View
+                                        Detail</a>
+                                    </li>
+                                </ul>
+                            </div> -->
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
