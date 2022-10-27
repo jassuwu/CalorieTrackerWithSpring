@@ -25,6 +25,10 @@ public class CustomDayDetailsService {
         return dayRepository.findByUserId(userId);
     }
 
+    public Day findDayByEntryDateAndUserId(String entryDate, String userId) {
+        return dayRepository.findByEntryDateAndUserId(entryDate, userId);
+    }
+
     public List<Day> findAllDays() {
         return dayRepository.findAll();
     }

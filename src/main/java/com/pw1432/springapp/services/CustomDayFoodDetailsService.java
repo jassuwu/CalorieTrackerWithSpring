@@ -26,6 +26,10 @@ public class CustomDayFoodDetailsService {
         return dayFoodRepository.findDayFoodsByFoodIdAndUserId(foodId, userId);
     }
 
+    public DayFood findDayFoodByFoodIdAndDayIdAndUserId(String foodId, String dayId, String userId) {
+        return dayFoodRepository.findByFoodIdAndDayIdAndUserId(foodId, dayId, userId);
+    }
+
     public void saveDayFood(DayFood dayFood) {
         dayFoodRepository.save(dayFood);
     }

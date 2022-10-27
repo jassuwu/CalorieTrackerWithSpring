@@ -90,10 +90,10 @@ public class AuthController {
         ModelAndView modelAndView = new ModelAndView("redirect:/home");
         Day day = new Day();
         day.setEntryDate(entryDate.getEntryDate());
-        Day dayExists = dayService.findDayByEntryDate(day.getEntryDate());
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         day.setUserId(user.getId());
+        Day dayExists = dayService.findDayByEntryDateAndUserId(day.getEntryDate(), day.getUserId());
         String message = "Day has been entried successfully";
         if (dayExists != null) {
             bindingResult
@@ -182,7 +182,8 @@ public class AuthController {
         User user = userService.findUserByEmail(auth.getName());
         dayFood.setUserId(user.getId());
         String message = "Food has been added to the day successfully.";
-        DayFood dayFoodExists = dayFoodService.findDayFoodByFoodIdAndDayId(dayFood.getFoodId(), dayFood.getDayId());
+        DayFood dayFoodExists = dayFoodService.findDayFoodByFoodIdAndDayIdAndUserId(dayFood.getFoodId(),
+                dayFood.getDayId(), dayFood.getUserId());
         if (dayFoodExists != null) {
             bindingResult
                     .rejectValue("id", "error.dayFood",
@@ -190,11 +191,9 @@ public class AuthController {
         }
         if (bindingResult.hasErrors()) {
             message = "There is already a food entried with the date provided.";
-            // modelAndView.setViewName("day");
         } else {
             dayFoodService.saveDayFood(dayFood);
             modelAndView.addObject("dayFood", new DayFood());
-            // modelAndView.setViewName("day");
         }
         modelAndView.addObject("message", message);
         return modelAndView;

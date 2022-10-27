@@ -14,4 +14,6 @@ public interface DayFoodRepository extends MongoRepository<DayFood, String> {
 
     List<DayFood> findDayFoodsByFoodIdAndUserId(String foodId, String userId);
 
+    DayFood findByFoodIdAndDayIdAndUserId(String foodId, String dayId, String userId);
+
 }

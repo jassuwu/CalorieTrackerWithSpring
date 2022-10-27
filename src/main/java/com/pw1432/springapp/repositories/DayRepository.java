@@ -15,4 +15,6 @@ public interface DayRepository extends MongoRepository<Day, String> {
     List<Day> findByUserId(String userId);
 
     Optional<Day> findById(String id);
+
+    Day findByEntryDateAndUserId(String entryDate, String userId);
 }
