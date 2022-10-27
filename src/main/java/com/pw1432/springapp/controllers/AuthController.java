@@ -81,6 +81,7 @@ public class AuthController {
         User user = userService.findUserByEmail(auth.getName());
         List<Day> days = dayService.findDaysByUserId(user.getId());
         modelAndView.addObject("days", days);
+        modelAndView.addObject("user", user.getFullname());
         modelAndView.setViewName("home");
         return modelAndView;
     }
