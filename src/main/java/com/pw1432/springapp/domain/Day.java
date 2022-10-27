@@ -13,13 +13,15 @@ public class Day {
     private String id;
     @Indexed(unique = true, direction = IndexDirection.DESCENDING, dropDups = true)
     private String entryDate;
+    private String userId;
 
     // Constructor
     public Day() {
     }
 
-    public Day(String entryDate) {
+    public Day(String entryDate, String userId) {
         this.entryDate = entryDate;
+        this.userId = userId;
     }
 
     // Getters and Setters
@@ -38,6 +40,14 @@ public class Day {
 
     public void setEntryDate(String entryDate) {
         this.entryDate = entryDate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     // toString

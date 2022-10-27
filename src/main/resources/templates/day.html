@@ -52,10 +52,12 @@
               <button type="submit" class="btn btn-primary">Add</button>
 
             </form>
-
+            <p class="alert" th:text="${message}"></p>
           </div>
 
-          <div class="page-header"></div>
+          <div class="page-header">
+
+          </div>
           <div class="panel-body">
             <ul class="nav nav-pills" role="tablist" th:each="food: ${foodlist}">
 

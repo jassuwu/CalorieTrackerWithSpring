@@ -70,27 +70,16 @@ public class AuthController {
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
             modelAndView.setViewName("login");
-
         }
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
-    public ModelAndView dashboard() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("currentUser", user);
-        modelAndView.addObject("fullName", "Welcome " + user.getFullname());
-        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("dashboard");
         return modelAndView;
     }
 
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
     public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
-        List<Day> days = dayService.findAllDays();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        List<Day> days = dayService.findDaysByUserId(user.getId());
         modelAndView.addObject("days", days);
         modelAndView.setViewName("home");
         return modelAndView;
@@ -98,23 +87,27 @@ public class AuthController {
 
     @RequestMapping(value = { "/", "/home" }, method = RequestMethod.POST)
     public ModelAndView newDay(Day entryDate, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("redirect:/home");
         Day day = new Day();
         day.setEntryDate(entryDate.getEntryDate());
         Day dayExists = dayService.findDayByEntryDate(day.getEntryDate());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        day.setUserId(user.getId());
+        String message = "Day has been entried successfully";
         if (dayExists != null) {
             bindingResult
                     .rejectValue("day", "error.day",
                             "There is already a day entried with the date provided.");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("home");
+            message = "There is already a day entried with the date provided.";
         } else {
             dayService.saveDay(day);
-            modelAndView.addObject("successMessage", "Day has been entried successfully.");
             modelAndView.addObject("day", new Day());
-            modelAndView.setViewName("home");
+            // modelAndView.setViewName("home");
         }
+        modelAndView.addObject("message", message);
         return modelAndView;
     }
 
@@ -129,24 +122,27 @@ public class AuthController {
 
     @RequestMapping(value = "/food", method = RequestMethod.POST)
     public ModelAndView addFood(Food name, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("redirect:/food");
         Food food = new Food();
         food.setName(name.getName());
         food.setCalories(name.getCalories());
         Food foodExists = foodService.findFoodByName(food.getName());
+        String message = "Food has been added to the day successfully.";
+
         if (foodExists != null) {
             bindingResult
                     .rejectValue("food", "error.food",
                             "There is already a food entried with the date provided.");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("food");
+            message = "There is already a food entried with details provided.";
         } else {
             foodService.saveFood(food);
             modelAndView.addObject("successMessage", "Food has been entried successfully.");
             modelAndView.addObject("food", new Food());
-            modelAndView.setViewName("food");
+            // modelAndView.setViewName("food");
         }
+        modelAndView.addObject("message", message);
         return modelAndView;
     }
 
@@ -157,11 +153,15 @@ public class AuthController {
         List<Food> foods = foodService.findAllFoods();
         List<Food> foodlist = new ArrayList<Food>();
         Optional<Day> date = dayService.findDayById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
         Integer totalCalories = 0;
         for (DayFood dayFood : dayFoodsByDay) {
-            Food food = foodService.findFoodById(dayFood.getFoodId()).get();
-            totalCalories += food.getCalories();
-            foodlist.add(food);
+            if (dayFood.getUserId().equals(user.getId())) {
+                Food food = foodService.findFoodById(dayFood.getFoodId()).get();
+                totalCalories += food.getCalories();
+                foodlist.add(food);
+            }
         }
         modelAndView.addObject("totalCalories", totalCalories);
         modelAndView.addObject("foodlist", foodlist);
@@ -174,24 +174,29 @@ public class AuthController {
 
     @RequestMapping(value = "/days/{id}", method = RequestMethod.POST)
     public ModelAndView addFoodToDay(@PathVariable("id") String id, Food food, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("redirect:/days/{id}");
         DayFood dayFood = new DayFood();
         dayFood.setDayId(id);
         dayFood.setFoodId(food.getId());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        dayFood.setUserId(user.getId());
+        String message = "Food has been added to the day successfully.";
         DayFood dayFoodExists = dayFoodService.findDayFoodByFoodIdAndDayId(dayFood.getFoodId(), dayFood.getDayId());
         if (dayFoodExists != null) {
             bindingResult
-                    .rejectValue("dayFood", "error.dayFood",
+                    .rejectValue("id", "error.dayFood",
                             "There is already a food entried with the date provided.");
         }
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("day");
+            message = "There is already a food entried with the date provided.";
+            // modelAndView.setViewName("day");
         } else {
             dayFoodService.saveDayFood(dayFood);
-            modelAndView.addObject("successMessage", "DayFood has been entried successfully.");
             modelAndView.addObject("dayFood", new DayFood());
-            modelAndView.setViewName("day");
+            // modelAndView.setViewName("day");
         }
+        modelAndView.addObject("message", message);
         return modelAndView;
     }
 }

@@ -3,13 +3,15 @@ package com.pw1432.springapp.domain;
 public class DayFood {
     private String foodId;
     private String dayId;
+    private String userId;
 
     public DayFood() {
     }
 
-    public DayFood(String foodId, String dayId) {
+    public DayFood(String foodId, String dayId, String userId) {
         this.foodId = foodId;
         this.dayId = dayId;
+        this.userId = userId;
     }
 
     public String getFoodId() {
@@ -28,8 +30,16 @@ public class DayFood {
         this.dayId = dayId;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
-        return "DayFood [dayId=" + dayId + ", foodId=" + foodId + "]";
+        return "DayFood [dayId=" + dayId + ", foodId=" + foodId + ", userId=" + userId + "]";
     }
 }
