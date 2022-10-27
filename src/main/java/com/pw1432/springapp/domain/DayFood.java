@@ -1,11 +1,7 @@
 package com.pw1432.springapp.domain;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 public class DayFood {
-    @DBRef
     private String foodId;
-    @DBRef
     private String dayId;
 
     public DayFood() {

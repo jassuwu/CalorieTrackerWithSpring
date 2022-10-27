@@ -17,6 +17,10 @@ public class CustomDayDetailsService {
         return dayRepository.findByEntryDate(entryDate);
     }
 
+    public Optional<Day> findDayById(String id) {
+        return dayRepository.findById(id);
+    }
+
     public List<Day> findAllDays() {
         return dayRepository.findAll();
     }

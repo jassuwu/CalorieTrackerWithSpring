@@ -24,7 +24,8 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li><a th:href="@{/home}">Home</a></li>
-          <li class="active"><a th:href="@{/food}">Add Food Item</a></li>
+          <li><a th:href="@{/food}">Add Food Item</a></li>
+          <li><a th:href="@{/logout}">Logout</a></li>
         </ul>
       </div>
     </div>
@@ -36,14 +37,15 @@
       <div>
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title" th:text="${today}"></h3>
+            <h3 class="panel-title" th:text="${date}"></h3>
+            <h3 id="total-cals-today" th:inline="text">Calories: [[${totalCalories}]]</h3>
           </div>
 
           <div class="panel-body">
-            <form method="POST" action="{{ url_for('view', dateid=dateid) }}">
-              <div class="form-group">
-                <select name="foodselect" class="form-control">
-                  <option th:each="food : ${foodlist}" th:value="${food.id}" th:text="${food.name}"></option>
+            <form method="POST" th:action="@{'/days/'+${id}}">
+              <div class=" form-group">
+                <select name="id" class="form-control">
+                  <option th:each="food : ${foods}" th:value="${food.id}" th:text="${food.name}"></option>
                 </select>
               </div>
 
@@ -54,17 +56,16 @@
           </div>
 
           <div class="page-header"></div>
-          {% for fooddate in fooddatelist %}
           <div class="panel-body">
-            <ul class="nav nav-pills" role="tablist">
-              <li class="active"><a>{{ fooddate.fname }}</a></li>
-              <li><a>Protein: <span class="badge">{{ fooddate.fpro }}</span></a></li>
-              <li><a>Carbohydates: <span class="badge">{{ fooddate.fcarbs }}</span></a></li>
-              <li><a>Fat: <span class="badge">{{ fooddate.ffat }}</span></a></li>
-              <li><a>Calories: <span class="badge">{{ fooddate.fcals }}</span></a></li>
+            <ul class="nav nav-pills" role="tablist" th:each="food: ${foodlist}">
+
+              <li class=" active" th:text="${food.name}">
+              <li>
+                <div class="badge">Calories: <span class="badge" th:text="${food.calories}"></span></div>
+              </li>
+              </li>
             </ul>
           </div>
-          {% endfor %}
         </div>
       </div>
     </div>

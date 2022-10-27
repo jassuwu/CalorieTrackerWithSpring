@@ -1,23 +1,28 @@
 
 package com.pw1432.springapp.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.pw1432.springapp.domain.Day;
+import com.pw1432.springapp.domain.DayFood;
 import com.pw1432.springapp.domain.Food;
 import com.pw1432.springapp.domain.User;
 import com.pw1432.springapp.services.CustomUserDetailsService;
 import com.pw1432.springapp.services.CustomDayDetailsService;
 import com.pw1432.springapp.services.CustomFoodDetailsService;
+import com.pw1432.springapp.services.CustomDayFoodDetailsService;
 
 @RestController
 public class AuthController {
@@ -30,6 +35,9 @@ public class AuthController {
 
     @Autowired
     private CustomFoodDetailsService foodService;
+
+    @Autowired
+    private CustomDayFoodDetailsService dayFoodService;
 
     public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
@@ -138,6 +146,51 @@ public class AuthController {
             modelAndView.addObject("successMessage", "Food has been entried successfully.");
             modelAndView.addObject("food", new Food());
             modelAndView.setViewName("food");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/days/{id}", method = RequestMethod.GET)
+    public ModelAndView day(@PathVariable("id") String id) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<DayFood> dayFoodsByDay = dayFoodService.findFoodIdsByDayId(id);
+        List<Food> foods = foodService.findAllFoods();
+        List<Food> foodlist = new ArrayList<Food>();
+        Optional<Day> date = dayService.findDayById(id);
+        Integer totalCalories = 0;
+        for (DayFood dayFood : dayFoodsByDay) {
+            Food food = foodService.findFoodById(dayFood.getFoodId()).get();
+            totalCalories += food.getCalories();
+            foodlist.add(food);
+        }
+        modelAndView.addObject("totalCalories", totalCalories);
+        modelAndView.addObject("foodlist", foodlist);
+        modelAndView.addObject("foods", foods);
+        modelAndView.addObject("today", id);
+        modelAndView.addObject("date", date.get().getEntryDate());
+        modelAndView.setViewName("day");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/days/{id}", method = RequestMethod.POST)
+    public ModelAndView addFoodToDay(@PathVariable("id") String id, Food food, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        DayFood dayFood = new DayFood();
+        dayFood.setDayId(id);
+        dayFood.setFoodId(food.getId());
+        DayFood dayFoodExists = dayFoodService.findDayFoodByFoodIdAndDayId(dayFood.getFoodId(), dayFood.getDayId());
+        if (dayFoodExists != null) {
+            bindingResult
+                    .rejectValue("dayFood", "error.dayFood",
+                            "There is already a food entried with the date provided.");
+        }
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("day");
+        } else {
+            dayFoodService.saveDayFood(dayFood);
+            modelAndView.addObject("successMessage", "DayFood has been entried successfully.");
+            modelAndView.addObject("dayFood", new DayFood());
+            modelAndView.setViewName("day");
         }
         return modelAndView;
     }

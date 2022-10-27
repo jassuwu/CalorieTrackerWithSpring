@@ -21,6 +21,10 @@ public class CustomFoodDetailsService {
         return foodRepository.findAll();
     }
 
+    public Optional<Food> findFoodById(String id) {
+        return foodRepository.findById(id);
+    }
+
     public void saveFood(Food food) {
         foodRepository.save(food);
     }
