@@ -97,7 +97,7 @@ public class AuthController {
         String message = "Day has been entried successfully";
         if (dayExists != null) {
             bindingResult
-                    .rejectValue("day", "error.day",
+                    .rejectValue("id", "error.day",
                             "There is already a day entried with the date provided.");
         }
         if (bindingResult.hasErrors()) {
@@ -131,7 +131,7 @@ public class AuthController {
 
         if (foodExists != null) {
             bindingResult
-                    .rejectValue("food", "error.food",
+                    .rejectValue("id", "error.food",
                             "There is already a food entried with the date provided.");
         }
         if (bindingResult.hasErrors()) {
