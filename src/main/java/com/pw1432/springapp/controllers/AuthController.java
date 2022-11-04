@@ -199,4 +199,24 @@ public class AuthController {
         modelAndView.addObject("message", message);
         return modelAndView;
     }
+
+    @RequestMapping(value = "/stats", method = RequestMethod.GET)
+    public ModelAndView stats() {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        List<Day> days = dayService.findDaysByUserId(user.getId());
+        List<DayFood> dayFoods = dayFoodService.findFoodIdsByUserId(user.getId());
+        Integer totalCalories = 0;
+        for (DayFood dayFood : dayFoods) {
+            Food food = foodService.findFoodById(dayFood.getFoodId()).get();
+            totalCalories += food.getCalories();
+        }
+        modelAndView.addObject("totalCalories", totalCalories);
+        modelAndView.addObject("noofDays", days.size());
+        modelAndView.addObject("noOfDayFood", dayFoods.size());
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("profile");
+        return modelAndView;
+    }
 }

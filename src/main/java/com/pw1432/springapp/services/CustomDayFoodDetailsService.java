@@ -22,6 +22,10 @@ public class CustomDayFoodDetailsService {
         return dayFoodRepository.findFoodIdsByDayId(dayId);
     }
 
+    public List<DayFood> findFoodIdsByUserId(String userId) {
+        return dayFoodRepository.findFoodIdsByUserId(userId);
+    }
+
     public List<DayFood> findDayFoodsByFoodIdAndUserId(String foodId, String userId) {
         return dayFoodRepository.findDayFoodsByFoodIdAndUserId(foodId, userId);
     }
