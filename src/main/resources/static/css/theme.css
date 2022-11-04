@@ -1,0 +1,29 @@
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+a, a:hover {
+  color:white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.badge {
+  color: white;
+  background-color: #337AB7;
+}
