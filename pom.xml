@@ -13,9 +13,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>UserAPI</name>
 	<description>UserAPI for the FoodTracker App</description>
-	<properties>
+	<!-- <properties>
 		<java.version>17</java.version>
-	</properties>
+	</properties> -->
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv -->
 		<dependency>
