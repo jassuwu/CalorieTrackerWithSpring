@@ -90,6 +90,7 @@ public class WebSecurityConfig {
                 .antMatchers("/signup").permitAll()
                 .antMatchers("/home/**").hasAuthority("ADMIN")
                 .antMatchers("/food/**").hasAuthority("ADMIN")
+                .antMatchers("/profile/**").hasAuthority("ADMIN")
                 .antMatchers("/day/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .successHandler(customizeAuthenticationSuccessHandler)
