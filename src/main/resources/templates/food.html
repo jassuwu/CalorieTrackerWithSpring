@@ -19,11 +19,11 @@
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand" th:href="@{/home}">Food Tracker</a>
+        <a class="navbar-brand" th:href="@{/home}">Home</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a th:href="@{/home}" th:inline="text">[[${user}]]'s Home</a></li>
+          <li><a th:href="@{/stats}" th:inline="text">[[${user}]] stats</a></li>
           <li class="active"><a th:href="@{/food}">Add Food Item</a></li>
           <li><a th:href="@{/logout}">Logout</a></li>
         </ul>
