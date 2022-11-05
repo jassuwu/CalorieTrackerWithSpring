@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home </title>
+    <title>Profile</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -17,26 +17,32 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/home}">Home</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a th:href="@{/stats}" th:inline="text">[[${user.getFullname()}]] stats</a></li>
+                    <li><a th:href="@{/food}">Add Food Item</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container justify pt-5">
         <div class="row text-center">
             <div class="col">
                 <h2>You, the customer :</h2>
             </div>
         </div>
-        <!-- <div class="row mt-4">
-            <div class="col-lg-6">
-                <h3>You:</h3>
-            </div>
-            <div class="col-lg-6" style="float: right;">
-                <img class="w-25 grayscale" src="https://avatars.githubusercontent.com/jassuwu" alt="jass_avatar">
-            </div>
-        </div> -->
         <div class="row mt-4">
             <div class="col-lg-6">
                 <h3>Your name:</h3>
             </div>
             <div class="col-lg-6" style="float: right;">
-                <h3 th:inline="text">[[${user.getEmail()}]]
+                <h3 th:inline="text">[[${user.getFullname()}]]
                 </h3>
             </div>
         </div>
@@ -45,19 +51,10 @@
                 <h3>Your email:</h3>
             </div>
             <div class="col-lg-6" style="float: right;">
-                <h3 th:inline="text">[[${user.getFullname()}]]
+                <h3 th:inline="text">[[${user.getEmail()}]]
                 </h3>
             </div>
         </div>
-        <!-- <div class="row mt-4">
-            <div class="col-lg-6">
-                <h3>Bio:</h3>
-            </div>
-            <div class="col-lg-6" style="float: right;">
-                <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam labore odio commodi laborum
-                    exercitationem explicabo eum aut voluptatem voluptates quisquam.</h4>
-            </div>
-        </div> -->
         <div class="row mt-4">
             <div class="col-lg-6">
             </div>
@@ -69,11 +66,6 @@
                 <h2>
                     Your calorie tracking career be like :
                 </h2>
-            </div>
-        </div>
-        <div class="row text-center">
-            <div class="col">
-                <h2>Our db says: </h2>
             </div>
         </div>
         <div class="row mt-4">
@@ -103,24 +95,6 @@
                 </h3>
             </div>
         </div>
-        <!-- <div class="row mt-4">
-            <div class="col-lg-6">
-                <h3>Highest WPM</h3>
-            </div>
-            <div class="col-lg-6" style="float: right;">
-                <h3>
-                </h3>
-            </div>
-        </div>
-        <div class="row mt-4">
-            <div class="col-lg-6">
-                <h3>Tracks completed</h3>
-            </div>
-            <div class="col-lg-6" style="float: right;">
-                <h3>
-                </h3>
-            </div>
-        </div> -->
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

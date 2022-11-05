@@ -115,8 +115,11 @@ public class AuthController {
     @RequestMapping(value = "/food", method = RequestMethod.GET)
     public ModelAndView food() {
         ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
         List<Food> foods = foodService.findAllFoods();
         modelAndView.addObject("foods", foods);
+        modelAndView.addObject("user", user.getFullname());
         modelAndView.setViewName("food");
         return modelAndView;
     }
@@ -213,7 +216,7 @@ public class AuthController {
             totalCalories += food.getCalories();
         }
         modelAndView.addObject("totalCalories", totalCalories);
-        modelAndView.addObject("noofDays", days.size());
+        modelAndView.addObject("noOfDays", days.size());
         modelAndView.addObject("noOfDayFood", dayFoods.size());
         modelAndView.addObject("user", user);
         modelAndView.setViewName("profile");
