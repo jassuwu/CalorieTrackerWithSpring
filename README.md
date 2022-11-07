@@ -2,6 +2,9 @@
           A web application for the purpose of making daily calorie tracking easier. 
           Built with Java 19, Spring Boot, Maven, and MongoDB. 
     
+## Deployment 
+Before you read furthur, [here](http://calorietracker1432.herokuapp.com/) is the heroku deployment of the application so you can try it out yourself. 
+   
 ## Features
 
 * Provides user accounts level calorie tracking.
