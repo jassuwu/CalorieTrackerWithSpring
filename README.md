@@ -1,6 +1,10 @@
 # CalorieTrackerWithSpring
           A web application for the purpose of making daily calorie tracking easier. 
           Built with Java 19, Spring Boot, Maven, and MongoDB. 
+
+## Developed by
+- [@jassuwu](https://www.github.com/jassuwu)
+- [@en3rypt](https://www.github.com/en3rypt)
     
 ## Deployment 
 Before you read furthur, [here](http://calorietracker1432.herokuapp.com/) is the heroku deployment of the application so you can try it out yourself. 
