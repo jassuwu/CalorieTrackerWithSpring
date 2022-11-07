@@ -1,5 +1,6 @@
 # CalorieTrackerWithSpring
-          A web application for the purpose of making daily calorie tracking easier. Built with Java 19, Spring Boot, Maven, and MongoDB. 
+          A web application for the purpose of making daily calorie tracking easier. 
+          Built with Java 19, Spring Boot, Maven, and MongoDB. 
     
 ## Features
 
